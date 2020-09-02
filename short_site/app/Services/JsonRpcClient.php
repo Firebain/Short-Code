@@ -19,7 +19,8 @@ class JsonRpcClient implements RpcClient
         $this->end_point = $end_point;
     }
 
-    public function call(string $method, array $data): array {
+    public function call(string $method, array $data): array
+    {
         $response = Http::post($this->end_point, [
             "jsonrpc" => Self::JSON_RPC_VERSION,
             "method" => $method,

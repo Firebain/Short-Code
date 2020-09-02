@@ -13,19 +13,22 @@ class PageController extends Controller
         "help" => "2b823c4e-0bb7-3a2b-8b42-a7da7d98c658"
     ];
 
-    public function home() {
+    public function home()
+    {
         return view("home", [
             "page_uid" => Self::AVAILABLE_PAGES_UIDS["home"]
         ]);
     }
 
-    public function help() {
+    public function help()
+    {
         return view("help", [
             "page_uid" => Self::AVAILABLE_PAGES_UIDS["help"]
         ]);
     }
 
-    public function store(Request $request, RpcClient $client) {
+    public function store(Request $request, RpcClient $client)
+    {
         $request->validate([
             "page_uid" => ["required", "uuid", Rule::in(Self::AVAILABLE_PAGES_UIDS)],
             "title" => ["required", "string", "max:255"],

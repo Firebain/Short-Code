@@ -30,11 +30,13 @@ class JsonRpcServer implements RpcServer
         $this->routes = collect([]);
     }
 
-    public function register(string $method, string $class) {
+    public function register(string $method, string $class)
+    {
         $this->routes->push(["method" => $method, "class" => $class]);
     }
 
-    public function handle(): array {
+    public function handle(): array
+    {
         if ($this->request->json()->count() === 0) {
             return $this->error([
                 "code" => -32700,
@@ -72,7 +74,7 @@ class JsonRpcServer implements RpcServer
             $result = $this->controller_dispatcher->dispatch(Route::current(), $controller, $method);
 
             return $this->result($result, $id);
-        } catch(ValidationException $e) {
+        } catch (ValidationException $e) {
             return $this->error([
                 "code" => -32602,
                 "message" => "Invalid params"
@@ -87,7 +89,8 @@ class JsonRpcServer implements RpcServer
         }
     }
 
-    private function validator(array $data) {
+    private function validator(array $data)
+    {
         return Validator::make($data, [
             "jsonrpc" => ["required", Rule::in([Self::JSON_RPC_VERSION])],
             "method" => ["required", "string"],
@@ -96,7 +99,8 @@ class JsonRpcServer implements RpcServer
         ]);
     }
 
-    private function error($error, $id = null) {
+    private function error($error, $id = null)
+    {
         return [
             "jsonrpc" => Self::JSON_RPC_VERSION,
             "error" => $error,
@@ -104,7 +108,8 @@ class JsonRpcServer implements RpcServer
         ];
     }
 
-    private function result($result, $id) {
+    private function result($result, $id)
+    {
         return [
             "jsonrpc" => Self::JSON_RPC_VERSION,
             "result" => $result,
